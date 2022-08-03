@@ -1,0 +1,19 @@
+{
+  "name": "quickmerge",
+  "version": "1.0.0",
+  "description": "QuickMerge game prototype",
+  "author": "laksby",
+  "license": "ISC",
+  "scripts": {
+    "build": "esbuild --bundle src/index.ts --outfile=www/app.js",
+    "start": "esbuild --bundle src/index.ts --outfile=www/app.js --servedir=www"
+  },
+  "dependencies": {
+    "mobx": "^6.6.1",
+    "normalize.css": "^8.0.1",
+    "pixi.js": "^6.5.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.53"
+  }
+}
