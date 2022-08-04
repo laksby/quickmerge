@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
-import { TimingBar } from './components';
-import { Component } from './core';
-import { GameState } from './state';
+import { Board, DefeatPopup, IntroPopup, ScoreBar, TimingBar, VictoryPopup } from './components';
+import { GameComponent, GameState } from './core';
 import './styles/index.css';
 
 const app = new PIXI.Application({
@@ -11,12 +10,16 @@ const app = new PIXI.Application({
 });
 
 const gameState = new GameState({
-  timeStep: 50,
   timeLimit: 5000,
 });
 
-Component.bootstrap(app, gameState, [new TimingBar()]);
+GameComponent.bootstrap(app, gameState, [
+  new ScoreBar(),
+  new Board(),
+  new TimingBar(),
+  new IntroPopup(),
+  new VictoryPopup(),
+  new DefeatPopup(),
+]);
 
 document.body.appendChild(app.view);
-
-gameState.startGame();

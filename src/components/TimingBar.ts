@@ -1,58 +1,42 @@
-import { Component, Style } from '../core';
+import { GameComponent } from '../core';
 import * as PIXI from 'pixi.js';
 
-export class TimingBar extends Component {
+export class TimingBar extends GameComponent {
+  private width = 800;
+  private height = 8;
+  private margin = 16;
   private background: PIXI.Graphics;
-  private progressIndicator: PIXI.Graphics;
-
-  public getStyle(): Style {
-    const padding = 16;
-    const height = 16;
-
-    return {
-      x: padding,
-      y: this.app.view.height - padding - height,
-      width: this.app.view.width - padding * 2,
-      height,
-    };
-  }
-
-  public createRootObject() {
-    this.background = new PIXI.Graphics();
-    this.progressIndicator = new PIXI.Graphics();
-
-    this.background.beginFill(0xffffff);
-    this.background.drawRect(this.style.x, this.style.y, this.style.width, this.style.height);
-    this.background.endFill();
-
-    const rootObject = new PIXI.Container();
-    rootObject.addChild(this.background);
-    rootObject.addChild(this.progressIndicator);
-
-    return rootObject;
-  }
+  private indicator: PIXI.Graphics;
 
   public start() {
-    setInterval(() => {
-      if (this.state.isPlaying) {
-        this.state.updateTime();
-      }
-    }, this.state.timeStep);
+    this.background = new PIXI.Graphics();
+    this.indicator = new PIXI.Graphics();
+
+    this.root.x = (this.view.width - this.width) / 2;
+    this.root.y = this.view.height - this.height - this.margin;
+
+    this.background.beginFill(0xffffff);
+    this.background.drawRect(0, 0, this.width, this.height);
+    this.background.endFill();
+
+    this.background.addChild(this.indicator);
+    this.root.addChild(this.background);
   }
 
-  public update() {
-    const step = this.style.width / this.state.timeLimit;
+  public update(delta: number) {
+    if (this.state.isPlaying) {
+      this.state.updateTime(delta);
 
-    this.progressIndicator.beginFill(0x00ff00);
-    this.progressIndicator.drawRect(this.style.x, this.style.y, this.state.time * step, this.style.height);
-    this.progressIndicator.endFill();
-
-    if (this.state.isVictory) {
-      console.log('Victory');
+      if (this.state.isVictory) {
+        console.log('Victory');
+      }
     }
 
-    if (this.state.isDefeat) {
-      console.log('Defeat');
-    }
+    const step = this.width / this.state.timeLimit;
+
+    this.indicator.clear();
+    this.indicator.beginFill(0x00ff00);
+    this.indicator.drawRect(0, 0, Math.min(this.state.time * step, this.width), this.height);
+    this.indicator.endFill();
   }
 }

@@ -9,7 +9,6 @@
     "start": "esbuild --bundle src/index.ts --outfile=www/app.js --servedir=www"
   },
   "dependencies": {
-    "mobx": "^6.6.1",
     "normalize.css": "^8.0.1",
     "pixi.js": "^6.5.1"
   },
