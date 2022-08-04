@@ -1,10 +1,4 @@
 {
-  "cSpell.words": [
-    "esbuild",
-    "laksby",
-    "outfile",
-    "pixi",
-    "quickmerge",
-    "servedir"
-  ]
+  "editor.wordWrapColumn": 120,
+  "cSpell.words": ["autorun", "esbuild", "laksby", "outfile", "pixi", "quickmerge", "servedir"]
 }
