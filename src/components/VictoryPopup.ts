@@ -1,37 +1,32 @@
 import { GameComponent } from '../core';
-import * as PIXI from 'pixi.js';
+import { Button, LayoutV, Message } from './common';
 
 export class VictoryPopup extends GameComponent {
-  private buttonWidth = 256;
-  private buttonHeight = 64;
-  private gap = 128;
-  private message: PIXI.Text;
-  private button: PIXI.Graphics;
-  private buttonText: PIXI.Text;
-
   public start() {
-    this.message = new PIXI.Text('Nice Work!', { fill: 0xffffff, fontSize: 48 });
-    this.button = new PIXI.Graphics();
-    this.buttonText = new PIXI.Text('Play Again', { fill: 0x000000, fontSize: 24 });
-
-    this.root.x = (this.view.width - this.buttonWidth) / 2;
-    this.root.y = (this.view.height - this.message.height - this.buttonHeight - this.gap) / 2;
-
-    this.message.x = (this.buttonWidth - this.message.width) / 2;
-
-    this.button.beginFill(0xffffff);
-    this.button.drawRect(0, this.message.height + this.gap, this.buttonWidth, this.buttonHeight);
-    this.button.endFill();
-    this.button.interactive = true;
-    this.button.buttonMode = true;
-    this.button.on('pointerdown', () => this.onTryAgainClick());
-
-    this.buttonText.x = (this.buttonWidth - this.buttonText.width) / 2;
-    this.buttonText.y = this.message.height + this.gap + (this.buttonHeight - this.buttonText.height) / 2;
-
-    this.button.addChild(this.buttonText);
-    this.root.addChild(this.message);
-    this.root.addChild(this.button);
+    this.child(
+      new LayoutV({
+        width: this.viewport.width,
+        height: this.viewport.height,
+        gap: 128,
+        elements: [
+          new Message({
+            width: 640,
+            height: 128,
+            fill: 0x00ff00,
+            text: 'Nice Work!',
+            style: { fill: 0x000000, fontSize: 48 },
+          }),
+          new Button({
+            width: 256,
+            height: 64,
+            fill: 0xffffff,
+            text: 'Play Again',
+            style: { fill: 0x000000, fontSize: 24 },
+            onClick: () => this.onTryAgainClick(),
+          }),
+        ],
+      }),
+    );
 
     this.root.visible = false;
   }

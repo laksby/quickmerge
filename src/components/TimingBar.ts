@@ -2,7 +2,7 @@ import { GameComponent } from '../core';
 import * as PIXI from 'pixi.js';
 
 export class TimingBar extends GameComponent {
-  private width = 800;
+  private width = 640;
   private height = 8;
   private margin = 16;
   private background: PIXI.Graphics;
@@ -12,8 +12,8 @@ export class TimingBar extends GameComponent {
     this.background = new PIXI.Graphics();
     this.indicator = new PIXI.Graphics();
 
-    this.root.x = (this.view.width - this.width) / 2;
-    this.root.y = this.view.height - this.height - this.margin;
+    this.root.x = (this.viewport.width - this.width) / 2;
+    this.root.y = this.viewport.height - this.height - this.margin;
 
     this.background.beginFill(0xffffff);
     this.background.drawRect(0, 0, this.width, this.height);
@@ -26,10 +26,6 @@ export class TimingBar extends GameComponent {
   public update(delta: number) {
     if (this.state.isPlaying) {
       this.state.updateTime(delta);
-
-      if (this.state.isVictory) {
-        console.log('Victory');
-      }
     }
 
     const step = this.width / this.state.timeLimit;

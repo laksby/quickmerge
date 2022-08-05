@@ -15,8 +15,8 @@ export class Board extends GameComponent {
     const totalWidth = this.cols * this.colWidth + (this.cols - 1) * this.gap;
     const totalHeight = this.rows * this.rowHeight + (this.rows - 1) * this.gap;
 
-    this.root.x = (this.view.width - totalWidth) / 2;
-    this.root.y = (this.view.height - totalHeight) / 2;
+    this.root.x = (this.viewport.width - totalWidth) / 2;
+    this.root.y = (this.viewport.height - totalHeight) / 2;
 
     for (let i = 0; i < this.cols; i++) {
       for (let j = 0; j < this.rows; j++) {

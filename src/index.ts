@@ -10,7 +10,7 @@ const app = new PIXI.Application({
 });
 
 const gameState = new GameState({
-  timeLimit: 5000,
+  timeLimit: 3000,
 });
 
 GameComponent.bootstrap(app, gameState, [
