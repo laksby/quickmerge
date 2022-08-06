@@ -41,7 +41,7 @@ export class UIElement<TOptions extends UIElementOptions = UIElementOptions> ext
     this.root.y = this.y;
   }
 
-  public update() {
+  public update(delta: number) {
     if (this.x !== this.root.x) {
       this.root.x = this.x;
     }

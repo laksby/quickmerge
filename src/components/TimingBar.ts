@@ -1,38 +1,29 @@
-import { GameComponent } from '../core';
-import * as PIXI from 'pixi.js';
+import { Progress, UIElement } from './common';
 
-export class TimingBar extends GameComponent {
-  private width = 640;
-  private height = 8;
-  private margin = 16;
-  private background: PIXI.Graphics;
-  private indicator: PIXI.Graphics;
+export class TimingBar extends UIElement {
+  private progress: Progress;
 
   public start() {
-    this.background = new PIXI.Graphics();
-    this.indicator = new PIXI.Graphics();
+    super.start();
 
-    this.root.x = (this.viewport.width - this.width) / 2;
-    this.root.y = this.viewport.height - this.height - this.margin;
-
-    this.background.beginFill(0xffffff);
-    this.background.drawRect(0, 0, this.width, this.height);
-    this.background.endFill();
-
-    this.background.addChild(this.indicator);
-    this.root.addChild(this.background);
+    this.progress = this.child(
+      new Progress({
+        width: this.width,
+        height: this.height,
+        fill: 0xffffff,
+        indicator: 0x00ff00,
+        max: this.state.timeLimit,
+      }),
+    );
   }
 
   public update(delta: number) {
+    super.update(delta);
+
     if (this.state.isPlaying) {
       this.state.updateTime(delta);
     }
 
-    const step = this.width / this.state.timeLimit;
-
-    this.indicator.clear();
-    this.indicator.beginFill(0x00ff00);
-    this.indicator.drawRect(0, 0, Math.min(this.state.time * step, this.width), this.height);
-    this.indicator.endFill();
+    this.progress.set(this.state.time);
   }
 }

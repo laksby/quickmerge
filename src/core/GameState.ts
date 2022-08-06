@@ -1,5 +1,8 @@
 export interface GameOptions {
   timeLimit: number;
+  cols: number;
+  rows: number;
+  itemCodes: number[];
 }
 
 export enum GamePhase {
@@ -14,12 +17,21 @@ export class GameState {
   public score: number;
   public time: number;
   public timeLimit: number;
+  public cols: number;
+  public rows: number;
+  public itemCodes: number[];
+  public items: (number | null)[][];
 
   constructor(options: GameOptions) {
     this.phase = GamePhase.Intro;
     this.score = 0;
     this.time = 0;
     this.timeLimit = options.timeLimit;
+    this.cols = options.cols;
+    this.rows = options.rows;
+    this.itemCodes = options.itemCodes;
+    this.items = new Array(this.cols).fill(null).map(() => new Array(this.rows).fill(null));
+    this.generate();
   }
 
   public get isIntro() {
@@ -42,6 +54,7 @@ export class GameState {
     this.phase = GamePhase.Playing;
     this.score = 0;
     this.time = 0;
+    this.generate();
   }
 
   public updateTime(timeStep: number) {
@@ -52,7 +65,39 @@ export class GameState {
     }
   }
 
-  public tryMerge() {
-    this.phase = GamePhase.Victory;
+  public tryMerge(sourceX: number, sourceY: number, targetX: number, targetY: number): boolean {
+    const source = this.items[sourceX][sourceY];
+    const target = this.items[targetX][targetY];
+
+    if (source === target) {
+      this.items[sourceX][sourceY] = null;
+      this.items[targetX][targetY] = null;
+
+      const hasItems = this.items.flat().some(item => item !== null);
+
+      if (!hasItems) {
+        this.phase = GamePhase.Victory;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  private generate() {
+    const repeat = (this.cols * this.rows) / this.itemCodes.length;
+    const pool = this.itemCodes.flatMap(code => new Array(repeat).fill(code));
+
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    for (let i = 0; i < this.cols; i++) {
+      for (let j = 0; j < this.rows; j++) {
+        this.items[i][j] = pool[j + i * this.cols];
+      }
+    }
   }
 }

@@ -10,14 +10,14 @@ export class DefeatPopup extends GameComponent {
         gap: 128,
         elements: [
           new Message({
-            width: 640,
+            width: 400,
             height: 128,
             fill: 0xfff0000,
             text: 'Fail!',
             style: { fill: 0x000000, fontSize: 48 },
           }),
           new Button({
-            width: 256,
+            width: 200,
             height: 64,
             fill: 0xffffff,
             text: 'Try Again',

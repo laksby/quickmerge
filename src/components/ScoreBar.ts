@@ -1,3 +1,3 @@
-import { GameComponent } from '../core';
+import { UIElement } from './common';
 
-export class ScoreBar extends GameComponent {}
+export class ScoreBar extends UIElement {}

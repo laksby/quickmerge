@@ -10,14 +10,14 @@ export class IntroPopup extends GameComponent {
         gap: 32,
         elements: [
           new Message({
-            width: 640,
+            width: 400,
             height: 128,
             fill: 0xffffff,
             text: 'Merge all items',
             style: { fill: 0x000000, fontSize: 24 },
           }),
           new Button({
-            width: 256,
+            width: 200,
             height: 64,
             fill: 0xffffff,
             text: 'Start',

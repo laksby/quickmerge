@@ -36,6 +36,14 @@ export abstract class GameComponent {
     return this.app.view;
   }
 
+  protected get renderer() {
+    return this.app.renderer;
+  }
+
+  protected get interaction(): PIXI.InteractionManager {
+    return this.renderer.plugins.interaction;
+  }
+
   protected child<T extends GameComponent>(component: T): T {
     this.children.push(component);
     GameComponent.bootstrapComponent(this.app, this.state, this.root, component);
