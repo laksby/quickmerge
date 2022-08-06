@@ -2,8 +2,6 @@ import * as PIXI from 'pixi.js';
 import { UIElement, UIElementOptions } from './common';
 
 export interface BoardOptions extends UIElementOptions {
-  cols: number;
-  rows: number;
   gap: number;
 }
 
@@ -21,11 +19,11 @@ export class Board extends UIElement<BoardOptions> {
 
     this.cells = [];
     this.labels = [];
-    this.colWidth = (this.width - (this.options.cols - 1) * this.options.gap) / this.options.cols;
-    this.rowHeight = (this.height - (this.options.rows - 1) * this.options.gap) / this.options.rows;
+    this.colWidth = (this.width - (this.state.cols - 1) * this.options.gap) / this.state.cols;
+    this.rowHeight = (this.height - (this.state.rows - 1) * this.options.gap) / this.state.rows;
 
-    for (let i = 0; i < this.options.cols; i++) {
-      for (let j = 0; j < this.options.rows; j++) {
+    for (let i = 0; i < this.state.cols; i++) {
+      for (let j = 0; j < this.state.rows; j++) {
         const cell = new PIXI.Graphics();
         const label = new PIXI.Text(this.state.items[i][j] ?? '', { align: 'center', fill: 0x000000, fontSize: 24 });
 
@@ -62,9 +60,9 @@ export class Board extends UIElement<BoardOptions> {
   public update(delta: number) {
     super.update(delta);
 
-    for (let i = 0; i < this.options.cols; i++) {
-      for (let j = 0; j < this.options.rows; j++) {
-        const index = j + i * this.options.cols;
+    for (let i = 0; i < this.state.cols; i++) {
+      for (let j = 0; j < this.state.rows; j++) {
+        const index = j + i * this.state.cols;
         const cell = this.cells[index];
         const label = this.labels[index];
         const item = this.state.items[i][j];

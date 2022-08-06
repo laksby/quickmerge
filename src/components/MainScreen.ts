@@ -5,15 +5,6 @@ import { ScoreBar } from './ScoreBar';
 import { TimingBar } from './TimingBar';
 
 export class MainScreen extends GameComponent {
-  private readonly cols: number;
-  private readonly rows: number;
-
-  constructor(cols: number, rows: number) {
-    super();
-    this.cols = cols;
-    this.rows = rows;
-  }
-
   public start() {
     this.child(
       new LayoutV({
@@ -28,8 +19,6 @@ export class MainScreen extends GameComponent {
           new Board({
             width: 400,
             height: 400,
-            cols: this.cols,
-            rows: this.rows,
             gap: 8,
           }),
           new TimingBar({

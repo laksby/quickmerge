@@ -18,7 +18,7 @@ const gameState = new GameState({
 
 GameComponent.bootstrap(app, gameState, [
   // Components
-  new MainScreen(4, 4),
+  new MainScreen(),
   new IntroPopup(),
   new VictoryPopup(),
   new DefeatPopup(),
