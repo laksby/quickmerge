@@ -16,7 +16,7 @@ export class LayoutV extends UIElement<LayoutVOptions> {
     super.start();
 
     this.options.elements.forEach(element => {
-      this.child(element);
+      this.addChildren(element);
       this.totalHeight += element.height;
     });
 

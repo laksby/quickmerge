@@ -10,3 +10,8 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+@font-face {
+  font-family: Chango;
+  src: url(fonts/Chango-Regular.ttf) format('truetype');
+}

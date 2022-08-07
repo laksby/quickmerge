@@ -1,27 +1,45 @@
 import { GameComponent } from '../core';
-import { Button, Message, LayoutV } from './common';
+import { Button, Message, LayoutV, Image } from './common';
 
 export class IntroPopup extends GameComponent {
   public start() {
-    this.child(
+    this.addChildren(
+      new Image({
+        image: 'overlay_tile',
+        width: this.viewport.width,
+        height: this.viewport.height,
+      }),
       new LayoutV({
         width: this.viewport.width,
         height: this.viewport.height,
-        gap: 32,
+        gap: -32,
         elements: [
           new Message({
-            width: 400,
+            width: 500,
             height: 128,
-            fill: 0xffffff,
-            text: 'Merge all items',
-            style: { fill: 0x000000, fontSize: 24 },
+            fill: 'panel',
+            text: 'MERGE ALL SIMILAR ITEMS BEFORE TIME RUNS OUT',
+            textOffset: -12,
+            style: {
+              fill: 0x687164,
+              fontFamily: 'Chango',
+              fontSize: 24,
+              align: 'center',
+              wordWrap: true,
+              wordWrapWidth: 480,
+            },
           }),
           new Button({
             width: 200,
             height: 64,
-            fill: 0xffffff,
-            text: 'Start',
-            style: { fill: 0x000000, fontSize: 24 },
+            text: 'START',
+            textOffset: -4,
+            fill: 'button',
+            style: {
+              fill: 0xffffff,
+              fontFamily: 'Chango',
+              fontSize: 32,
+            },
             onClick: () => this.onStartClick(),
           }),
         ],

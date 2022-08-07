@@ -1,11 +1,20 @@
 import * as PIXI from 'pixi.js';
 import { GameState } from './GameState';
 
+export interface GameComponentOptions {
+  name?: string;
+}
+
 export abstract class GameComponent {
+  protected name?: string;
   protected app: PIXI.Application;
   protected state: GameState;
   protected root: PIXI.Container;
   protected children: GameComponent[] = [];
+
+  constructor(options: GameComponentOptions = {}) {
+    this.name = options.name;
+  }
 
   public static bootstrap(app: PIXI.Application, state: GameState, components: GameComponent[]) {
     components.forEach(component => {
@@ -22,6 +31,10 @@ export abstract class GameComponent {
     component.app = app;
     component.state = state;
     component.root = new PIXI.Container();
+
+    if (component.name) {
+      component.root.name = component.name;
+    }
 
     root.addChild(component.root);
 
@@ -44,12 +57,39 @@ export abstract class GameComponent {
     return this.renderer.plugins.interaction;
   }
 
-  protected child<T extends GameComponent>(component: T): T {
-    this.children.push(component);
-    GameComponent.bootstrapComponent(this.app, this.state, this.root, component);
-    return component;
+  protected addChildren(...components: GameComponent[]) {
+    components.forEach(component => {
+      this.children.push(component);
+      GameComponent.bootstrapComponent(this.app, this.state, this.root, component);
+    });
+  }
+
+  protected resource(name: string) {
+    return PIXI.Loader.shared.resources[name];
+  }
+
+  protected findByName<T extends GameComponent>(name: string): T {
+    return this.findChildByName(name, this.children) as T;
   }
 
   public start() {}
   public update(delta: number) {}
+
+  private findChildByName(name: string, components: GameComponent[]): GameComponent | undefined {
+    for (let i = 0; i < components.length; i++) {
+      const component = components[i];
+
+      if (component.name === name) {
+        return component;
+      }
+
+      const child = this.findChildByName(name, component.children);
+
+      if (child) {
+        return child;
+      }
+    }
+
+    return undefined;
+  }
 }

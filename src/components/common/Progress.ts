@@ -4,6 +4,7 @@ import { UIElement, UIElementOptions } from './UIElement';
 export interface ProgressOptions extends UIElementOptions {
   fill: number;
   indicator: number;
+  cornerRadius?: number;
   max: number;
   value?: number;
 }
@@ -11,6 +12,10 @@ export interface ProgressOptions extends UIElementOptions {
 export class Progress extends UIElement<ProgressOptions> {
   private background: PIXI.Graphics;
   private indicator: PIXI.Graphics;
+
+  public get cornerRadius() {
+    return this.options.cornerRadius ?? 0;
+  }
 
   public get value() {
     return this.options.value ?? 0;
@@ -31,7 +36,7 @@ export class Progress extends UIElement<ProgressOptions> {
     this.indicator = new PIXI.Graphics();
 
     this.background.beginFill(this.options.fill);
-    this.background.drawRect(0, 0, this.options.width, this.options.height);
+    this.background.drawRoundedRect(0, 0, this.width, this.height, this.cornerRadius);
     this.background.endFill();
 
     this.background.addChild(this.indicator);
@@ -45,7 +50,7 @@ export class Progress extends UIElement<ProgressOptions> {
 
     this.indicator.clear();
     this.indicator.beginFill(this.options.indicator);
-    this.indicator.drawRect(0, 0, Math.min(this.value * step, this.width), this.height);
+    this.indicator.drawRoundedRect(0, 0, Math.min(this.value * step, this.width), this.height, this.cornerRadius);
     this.indicator.endFill();
   }
 }

@@ -5,10 +5,11 @@
   "author": "laksby",
   "license": "ISC",
   "scripts": {
-    "build": "esbuild --bundle src/index.ts --outfile=www/app.js",
-    "start": "esbuild --bundle src/index.ts --outfile=www/app.js --servedir=www"
+    "build": "esbuild --bundle \"--external:*.ttf\" src/index.ts --outfile=www/app.js",
+    "start": "esbuild --bundle \"--external:*.ttf\" src/index.ts --outfile=www/app.js --servedir=www"
   },
   "dependencies": {
+    "fontfaceobserver": "^2.3.0",
     "normalize.css": "^8.0.1",
     "pixi.js": "^6.5.1"
   },

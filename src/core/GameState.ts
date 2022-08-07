@@ -72,6 +72,7 @@ export class GameState {
     if (source === target) {
       this.items[sourceX][sourceY] = null;
       this.items[targetX][targetY] = null;
+      this.score++;
 
       const hasItems = this.items.flat().some(item => item !== null);
 
@@ -86,8 +87,21 @@ export class GameState {
   }
 
   private generate() {
-    const repeat = (this.cols * this.rows) / this.itemCodes.length;
-    const pool = this.itemCodes.flatMap(code => new Array(repeat).fill(code));
+    const pool: number[] = [];
+    let pairCount = (this.cols * this.rows) / 2;
+    let codeIndex = 0;
+
+    while (pairCount > 0) {
+      pool.push(this.itemCodes[codeIndex]);
+      pool.push(this.itemCodes[codeIndex]);
+
+      codeIndex++;
+      pairCount--;
+
+      if (codeIndex >= this.itemCodes.length) {
+        codeIndex = 0;
+      }
+    }
 
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

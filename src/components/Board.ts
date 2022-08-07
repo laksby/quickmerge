@@ -6,10 +6,9 @@ export interface BoardOptions extends UIElementOptions {
 }
 
 export class Board extends UIElement<BoardOptions> {
-  private cells: PIXI.Graphics[];
-  private labels: PIXI.Text[];
+  private cells: PIXI.Sprite[];
   private dragStart?: PIXI.Point;
-  private dragCell?: PIXI.Graphics;
+  private dragCell?: PIXI.Sprite;
   private dragData?: PIXI.InteractionData;
   private colWidth: number;
   private rowHeight: number;
@@ -18,24 +17,24 @@ export class Board extends UIElement<BoardOptions> {
     super.start();
 
     this.cells = [];
-    this.labels = [];
     this.colWidth = (this.width - (this.state.cols - 1) * this.options.gap) / this.state.cols;
     this.rowHeight = (this.height - (this.state.rows - 1) * this.options.gap) / this.state.rows;
 
+    this.root.sortableChildren = true;
+
     for (let i = 0; i < this.state.cols; i++) {
       for (let j = 0; j < this.state.rows; j++) {
-        const cell = new PIXI.Graphics();
-        const label = new PIXI.Text(this.state.items[i][j] ?? '', { align: 'center', fill: 0x000000, fontSize: 24 });
+        const texture = this.resource(`cell_${this.state.items[i][j]}`).texture as PIXI.Texture;
+        const cell = new PIXI.Sprite(texture);
 
         this.setCellData(cell, i, j);
 
         cell.name = `Cell:${i};${j}`;
         cell.x = i * (this.colWidth + this.options.gap) + this.colWidth / 2;
         cell.y = j * (this.rowHeight + this.options.gap) + this.rowHeight / 2;
-        cell.pivot.set(this.colWidth / 2, this.rowHeight / 2);
-        cell.beginFill(0xffffff);
-        cell.drawRect(0, 0, this.colWidth, this.rowHeight);
-        cell.endFill();
+        cell.anchor.set(0.5, 0.5);
+        cell.width = this.colWidth;
+        cell.height = this.rowHeight;
         cell.interactive = true;
         cell.buttonMode = true;
         cell
@@ -44,14 +43,9 @@ export class Board extends UIElement<BoardOptions> {
           .on('pointerupoutside', () => this.onDragEnd())
           .on('pointermove', () => this.onDragMove());
 
-        label.x = this.colWidth / 2;
-        label.y = this.rowHeight / 2;
-        label.anchor.set(0.5, 0.5);
-
-        cell.addChild(label);
+        cell.zIndex = 1;
 
         this.cells.push(cell);
-        this.labels.push(label);
         this.root.addChild(cell);
       }
     }
@@ -62,21 +56,24 @@ export class Board extends UIElement<BoardOptions> {
 
     for (let i = 0; i < this.state.cols; i++) {
       for (let j = 0; j < this.state.rows; j++) {
-        const index = j + i * this.state.cols;
-        const cell = this.cells[index];
-        const label = this.labels[index];
+        const cell = this.cells[j + i * this.state.cols];
         const item = this.state.items[i][j];
 
         cell.visible = item !== null;
-        label.text = item ?? '';
+
+        if (item !== null) {
+          const texture = this.resource(`cell_${item}`).texture as PIXI.Texture;
+          cell.texture = texture;
+        }
       }
     }
   }
 
-  private onDragStart(event: PIXI.InteractionEvent, cell: PIXI.Graphics) {
+  private onDragStart(event: PIXI.InteractionEvent, cell: PIXI.Sprite) {
     this.dragStart = cell.position.clone();
     this.dragCell = cell;
     this.dragData = event.data;
+    this.dragCell.zIndex = 2;
   }
 
   private onDragEnd() {
@@ -100,6 +97,7 @@ export class Board extends UIElement<BoardOptions> {
 
       this.dragCell.x = this.dragStart.x;
       this.dragCell.y = this.dragStart.y;
+      this.dragCell.zIndex = 1;
 
       this.dragStart = undefined;
       this.dragCell = undefined;

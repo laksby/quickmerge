@@ -1,17 +1,17 @@
-import { GameComponent } from '../../core';
+import { GameComponent, GameComponentOptions } from '../../core';
 
-export interface UIElementOptions {
+export interface UIElementOptions extends GameComponentOptions {
   x?: number;
   y?: number;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 export class UIElement<TOptions extends UIElementOptions = UIElementOptions> extends GameComponent {
   protected options: TOptions;
 
   constructor(options: TOptions) {
-    super();
+    super(options);
     this.options = options;
   }
 
@@ -24,11 +24,11 @@ export class UIElement<TOptions extends UIElementOptions = UIElementOptions> ext
   }
 
   public get width() {
-    return this.options.width;
+    return this.options.width ?? 0;
   }
 
   public get height() {
-    return this.options.height;
+    return this.options.height ?? 0;
   }
 
   public position(x: number, y: number) {

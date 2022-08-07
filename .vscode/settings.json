@@ -1,4 +1,15 @@
 {
   "editor.wordWrapColumn": 120,
-  "cSpell.words": ["autorun", "esbuild", "laksby", "outfile", "pixi", "pointerupoutside", "quickmerge", "servedir"]
+  "cSpell.words": [
+    "autorun",
+    "Chango",
+    "esbuild",
+    "fontfaceobserver",
+    "laksby",
+    "outfile",
+    "pixi",
+    "pointerupoutside",
+    "quickmerge",
+    "servedir"
+  ]
 }

@@ -1,12 +1,19 @@
 import { GameComponent } from '../core';
 import { Board } from './Board';
-import { LayoutV } from './common';
+import { Image, LayoutV } from './common';
 import { ScoreBar } from './ScoreBar';
 import { TimingBar } from './TimingBar';
 
 export class MainScreen extends GameComponent {
   public start() {
-    this.child(
+    this.addChildren(
+      new Image({
+        x: this.viewport.width / 2,
+        y: this.viewport.height / 2,
+        anchorX: 0.5,
+        anchorY: 0.5,
+        image: 'background',
+      }),
       new LayoutV({
         width: this.viewport.width,
         height: this.viewport.height,
@@ -23,7 +30,6 @@ export class MainScreen extends GameComponent {
           }),
           new TimingBar({
             width: 400,
-            height: 8,
           }),
         ],
       }),

@@ -1,27 +1,35 @@
 import { GameComponent } from '../core';
-import { Button, LayoutV, Message } from './common';
+import { Button, Image, LayoutV, Message } from './common';
 
 export class VictoryPopup extends GameComponent {
   public start() {
-    this.child(
+    this.addChildren(
+      new Image({
+        image: 'overlay_tile',
+        width: this.viewport.width,
+        height: this.viewport.height,
+      }),
       new LayoutV({
         width: this.viewport.width,
         height: this.viewport.height,
-        gap: 128,
+        gap: 100,
         elements: [
           new Message({
-            width: 400,
-            height: 128,
-            fill: 0x00ff00,
-            text: 'Nice Work!',
-            style: { fill: 0x000000, fontSize: 48 },
+            width: 360,
+            height: 360,
+            fill: 'success',
           }),
           new Button({
-            width: 200,
+            width: 300,
             height: 64,
-            fill: 0xffffff,
-            text: 'Play Again',
-            style: { fill: 0x000000, fontSize: 24 },
+            text: 'PLAY AGAIN',
+            textOffset: -4,
+            fill: 'button_wide',
+            style: {
+              fill: 0xffffff,
+              fontFamily: 'Chango',
+              fontSize: 32,
+            },
             onClick: () => this.onTryAgainClick(),
           }),
         ],

@@ -6,15 +6,19 @@ export class TimingBar extends UIElement {
   public start() {
     super.start();
 
-    this.progress = this.child(
+    this.addChildren(
       new Progress({
+        name: 'progress',
         width: this.width,
-        height: this.height,
+        height: 12,
+        cornerRadius: 4,
         fill: 0xffffff,
-        indicator: 0x00ff00,
+        indicator: 0x80be1f,
         max: this.state.timeLimit,
       }),
     );
+
+    this.progress = this.findByName('progress');
   }
 
   public update(delta: number) {
