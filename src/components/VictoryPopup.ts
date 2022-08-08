@@ -1,7 +1,12 @@
+import * as PIXI from 'pixi.js';
 import { GameComponent } from '../core';
 import { Button, Image, LayoutV, Message } from './common';
+import { ParticleExplosion } from './ParticleExplosion';
 
 export class VictoryPopup extends GameComponent {
+  private isFireworks = false;
+  private victoryExplosion: ParticleExplosion;
+
   public start() {
     this.addChildren(
       new Image({
@@ -34,16 +39,42 @@ export class VictoryPopup extends GameComponent {
           }),
         ],
       }),
+      new ParticleExplosion({
+        name: 'victoryExplosion',
+      }),
     );
+
+    this.victoryExplosion = this.findByName('victoryExplosion');
 
     this.root.visible = false;
   }
 
   public update() {
     this.root.visible = this.state.isVictory;
+
+    if (this.root.visible) {
+      if (this.isFireworks) {
+        this.fireworks();
+        this.isFireworks = false;
+      }
+    } else {
+      this.isFireworks = true;
+    }
   }
 
   private onTryAgainClick() {
     this.state.startGame();
+  }
+
+  private fireworks() {
+    const count = 5;
+
+    const points = new Array(count).fill(null).map(() => {
+      const x = Math.random() * this.viewport.width;
+      const y = Math.random() * this.viewport.height;
+      return new PIXI.Point(x, y);
+    });
+
+    this.victoryExplosion.enqueue(points, 500);
   }
 }

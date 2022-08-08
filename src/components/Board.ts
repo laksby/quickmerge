@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { UIElement, UIElementOptions } from './common';
+import { ParticleExplosion } from './ParticleExplosion';
 
 export interface BoardOptions extends UIElementOptions {
   gap: number;
@@ -7,6 +8,7 @@ export interface BoardOptions extends UIElementOptions {
 
 export class Board extends UIElement<BoardOptions> {
   private cells: PIXI.Sprite[];
+  private mergeExplosion: ParticleExplosion;
   private dragStart?: PIXI.Point;
   private dragCell?: PIXI.Sprite;
   private dragData?: PIXI.InteractionData;
@@ -19,6 +21,9 @@ export class Board extends UIElement<BoardOptions> {
     this.cells = [];
     this.colWidth = (this.width - (this.state.cols - 1) * this.options.gap) / this.state.cols;
     this.rowHeight = (this.height - (this.state.rows - 1) * this.options.gap) / this.state.rows;
+
+    this.mergeExplosion = new ParticleExplosion();
+    this.addChildren(this.mergeExplosion);
 
     this.root.sortableChildren = true;
 
@@ -92,7 +97,11 @@ export class Board extends UIElement<BoardOptions> {
       if (targetCell) {
         const source = this.getCellData(this.dragCell);
         const target = this.getCellData(targetCell);
-        this.state.tryMerge(source.x, source.y, target.x, target.y);
+        const merged = this.state.tryMerge(source.x, source.y, target.x, target.y);
+
+        if (merged) {
+          this.mergeExplosion.emit(targetPosition.x, targetPosition.y);
+        }
       }
 
       this.dragCell.x = this.dragStart.x;

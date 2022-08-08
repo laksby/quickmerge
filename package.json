@@ -9,6 +9,7 @@
     "start": "esbuild --bundle \"--external:*.ttf\" src/index.ts --outfile=www/app.js --servedir=www"
   },
   "dependencies": {
+    "@pixi/particle-emitter": "^5.0.7",
     "fontfaceobserver": "^2.3.0",
     "normalize.css": "^8.0.1",
     "pixi.js": "^6.5.1"
