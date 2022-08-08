@@ -1,10 +1,12 @@
 import * as PIXI from 'pixi.js';
+import { sound } from '@pixi/sound';
 import { UIElement, UIElementOptions } from './UIElement';
 
 export interface ButtonOptions extends UIElementOptions {
   fill?: number | string;
   text?: string;
   textOffset?: number;
+  clickSound?: string;
   style?: Partial<PIXI.ITextStyle>;
   onClick(): void;
 }
@@ -15,6 +17,10 @@ export class Button extends UIElement<ButtonOptions> {
 
   public get textOffset() {
     return this.options.textOffset ?? 0;
+  }
+
+  public get clickSound() {
+    return this.options.clickSound ?? 'click';
   }
 
   public start() {
@@ -42,7 +48,7 @@ export class Button extends UIElement<ButtonOptions> {
 
     this.background.interactive = true;
     this.background.buttonMode = true;
-    this.background.on('pointerdown', this.options.onClick);
+    this.background.on('pointerdown', this.onPointerDown, this);
     this.background.on('pointerover', this.onPointerOver, this);
     this.background.on('pointerout', this.onPointerOut, this);
 
@@ -52,6 +58,11 @@ export class Button extends UIElement<ButtonOptions> {
 
     this.root.addChild(this.background);
     this.root.addChild(this.label);
+  }
+
+  private onPointerDown() {
+    sound.play(this.clickSound);
+    this.options.onClick();
   }
 
   private onPointerOver() {

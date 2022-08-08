@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js';
+import { sound } from '@pixi/sound';
 import { GameComponent } from '../core';
 import { Button, Image, LayoutV, Message } from './common';
 import { ParticleExplosion } from './ParticleExplosion';
 
 export class VictoryPopup extends GameComponent {
-  private isFireworks = false;
+  private isGreet = false;
   private victoryExplosion: ParticleExplosion;
 
   public start() {
@@ -53,12 +54,13 @@ export class VictoryPopup extends GameComponent {
     this.root.visible = this.state.isVictory;
 
     if (this.root.visible) {
-      if (this.isFireworks) {
+      if (this.isGreet) {
+        sound.play('victory');
         this.fireworks();
-        this.isFireworks = false;
+        this.isGreet = false;
       }
     } else {
-      this.isFireworks = true;
+      this.isGreet = true;
     }
   }
 

@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { sound } from '@pixi/sound';
 import { UIElement, UIElementOptions } from './common';
 import { ParticleExplosion } from './ParticleExplosion';
 
@@ -79,6 +80,7 @@ export class Board extends UIElement<BoardOptions> {
     this.dragCell = cell;
     this.dragData = event.data;
     this.dragCell.zIndex = 2;
+    sound.play('take');
   }
 
   private onDragEnd() {
@@ -101,6 +103,7 @@ export class Board extends UIElement<BoardOptions> {
 
         if (merged) {
           this.mergeExplosion.emit(targetPosition.x, targetPosition.y);
+          sound.play('merge');
         }
       }
 

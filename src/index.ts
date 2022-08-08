@@ -19,7 +19,7 @@ const gameState = new GameState({
 });
 
 PIXI.Loader.shared
-  // Assets
+  // Graphics
   .add('background', 'img/background.png')
   .add('bullet', 'img/bullet.png')
   .add('panel', 'img/panel.png')
@@ -35,6 +35,12 @@ PIXI.Loader.shared
   .add('cell_4', 'img/cell_4.png')
   .add('cell_5', 'img/cell_5.png')
   .add('cell_6', 'img/cell_6.png')
+  // Sounds
+  .add('click', 'sounds/click.mp3')
+  .add('take', 'sounds/take.mp3')
+  .add('merge', 'sounds/merge.mp3')
+  .add('victory', 'sounds/victory.mp3')
+  .add('defeat', 'sounds/defeat.mp3')
   .load(() => {
     const font = new FontFaceObserver('Chango', {});
 

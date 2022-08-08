@@ -1,7 +1,10 @@
+import { sound } from '@pixi/sound';
 import { GameComponent } from '../core';
 import { Button, Image, LayoutV, Message } from './common';
 
 export class DefeatPopup extends GameComponent {
+  private isGreet = false;
+
   public start() {
     this.addChildren(
       new Image({
@@ -41,6 +44,15 @@ export class DefeatPopup extends GameComponent {
 
   public update() {
     this.root.visible = this.state.isDefeat;
+
+    if (this.root.visible) {
+      if (this.isGreet) {
+        sound.play('defeat');
+        this.isGreet = false;
+      }
+    } else {
+      this.isGreet = true;
+    }
   }
 
   private onTryAgainClick() {
