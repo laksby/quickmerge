@@ -23,6 +23,7 @@ export class Image extends UIElement<ImageOptions> {
     this.sprite.width = this.width || this.sprite.width;
     this.sprite.height = this.height || this.sprite.height;
     this.sprite.anchor.set(this.options.anchorX, this.options.anchorY);
+    this.sprite.interactive = true;
 
     this.root.addChild(this.sprite);
   }

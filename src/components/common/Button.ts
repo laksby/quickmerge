@@ -43,6 +43,8 @@ export class Button extends UIElement<ButtonOptions> {
     this.background.interactive = true;
     this.background.buttonMode = true;
     this.background.on('pointerdown', this.options.onClick);
+    this.background.on('pointerover', this.onPointerOver, this);
+    this.background.on('pointerout', this.onPointerOut, this);
 
     this.label.x = this.width / 2;
     this.label.y = this.height / 2 + this.textOffset;
@@ -50,5 +52,13 @@ export class Button extends UIElement<ButtonOptions> {
 
     this.root.addChild(this.background);
     this.root.addChild(this.label);
+  }
+
+  private onPointerOver() {
+    this.background.tint = 0xeeeeee;
+  }
+
+  private onPointerOut() {
+    this.background.tint = 0xffffff;
   }
 }
