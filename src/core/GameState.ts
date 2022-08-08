@@ -15,8 +15,10 @@ export enum GamePhase {
 export class GameState {
   public phase: GamePhase;
   public score: number;
+  public level: number;
+  public lastLevel: number;
   public time: number;
-  public timeLimit: number;
+  public initialTimeLimit: number;
   public cols: number;
   public rows: number;
   public itemCodes: number[];
@@ -25,8 +27,10 @@ export class GameState {
   constructor(options: GameOptions) {
     this.phase = GamePhase.Intro;
     this.score = 0;
+    this.level = 1;
+    this.lastLevel = 1;
     this.time = 0;
-    this.timeLimit = options.timeLimit;
+    this.initialTimeLimit = options.timeLimit;
     this.cols = options.cols;
     this.rows = options.rows;
     this.itemCodes = options.itemCodes;
@@ -50,6 +54,10 @@ export class GameState {
     return this.phase === GamePhase.Defeat;
   }
 
+  public get timeLimit() {
+    return this.initialTimeLimit - this.level * 1000;
+  }
+
   public startGame() {
     this.phase = GamePhase.Playing;
     this.score = 0;
@@ -62,6 +70,8 @@ export class GameState {
 
     if (this.time >= this.timeLimit) {
       this.phase = GamePhase.Defeat;
+      this.lastLevel = this.level;
+      this.level = 1;
     }
   }
 
@@ -78,6 +88,7 @@ export class GameState {
 
       if (!hasItems) {
         this.phase = GamePhase.Victory;
+        this.level++;
       }
 
       return true;

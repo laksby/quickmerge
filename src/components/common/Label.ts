@@ -9,6 +9,10 @@ export interface LabelOptions extends UIElementOptions {
 export class Label extends UIElement<LabelOptions> {
   private text: PIXI.Text;
 
+  public setText(text: string) {
+    this.text.text = text;
+  }
+
   public start() {
     super.start();
 

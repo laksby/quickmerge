@@ -29,6 +29,10 @@ export class Progress extends UIElement<ProgressOptions> {
     this.options.value = value;
   }
 
+  public setMax(max: number) {
+    this.options.max = max;
+  }
+
   public start() {
     super.start();
 

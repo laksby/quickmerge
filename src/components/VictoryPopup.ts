@@ -28,7 +28,7 @@ export class VictoryPopup extends GameComponent {
           new Button({
             width: 300,
             height: 64,
-            text: 'PLAY AGAIN',
+            text: 'NEXT LEVEL',
             textOffset: -4,
             fill: 'button_wide',
             style: {

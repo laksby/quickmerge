@@ -1,6 +1,7 @@
 import { GameComponent } from '../core';
 import { Board } from './Board';
 import { Image, LayoutV } from './common';
+import { LevelBar } from './LevelBar';
 import { ScoreBar } from './ScoreBar';
 import { TimingBar } from './TimingBar';
 
@@ -19,6 +20,10 @@ export class MainScreen extends GameComponent {
         height: this.viewport.height,
         gap: 8,
         elements: [
+          new LevelBar({
+            width: 400,
+            height: 32,
+          }),
           new ScoreBar({
             width: 400,
             height: 32,

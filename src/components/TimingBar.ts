@@ -29,5 +29,6 @@ export class TimingBar extends UIElement {
     }
 
     this.progress.set(this.state.time);
+    this.progress.setMax(this.state.timeLimit);
   }
 }
