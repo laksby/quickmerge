@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "QuickMerge game prototype",
   "author": "laksby",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laksby/quickmerge.git"
+  },
   "scripts": {
     "build": "esbuild --bundle \"--external:*.ttf\" src/index.ts --outfile=www/app.js",
     "start": "esbuild --bundle \"--external:*.ttf\" src/index.ts --outfile=www/app.js --servedir=www"
