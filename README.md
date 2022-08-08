@@ -1,6 +1,6 @@
 # Quick Merge
 
-![CI](https://github.com/laksby/quickmerge/workflows/pages/badge.svg)
+![CI](https://github.com/laksby/quickmerge/workflows/Pages/badge.svg)
 
 [Play Online](https://laksby.github.io/quickmerge/)
 
