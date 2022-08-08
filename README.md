@@ -1,6 +1,6 @@
 # Quick Merge
 
-"Quick Merge" game prototype
+QuickMerge game prototype
 
 ## Getting Started
 
